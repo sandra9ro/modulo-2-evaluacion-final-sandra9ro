@@ -4,9 +4,9 @@
   [x] Investigar el API
   [] Hacer fetch
     [x] Función de fetch
-    [] Crear array de películas recibidas y meterlo en una constante
-  [] hacer event listening sobre el botón
-[] Conectar el input con la url de búsqueda
+    [x] Crear objeto de películas recibidas y meterlo en una constante
+  [x] hacer event listening sobre el botón
+[x] Conectar el input con la url de búsqueda
 [] Pintar una tarjeta con el resultado de la búsqueda
 [] Favoritos
   [] Crear un array de favoritos
