@@ -8,8 +8,6 @@ let series = [];
 let favoriteList = [];
 // foo.includes('vaca')
 
-const falseButton = document.querySelector('button');
-
 //Traer datos del servidor
 function getServerData() {
   const input = document.querySelector('.input');
@@ -17,15 +15,13 @@ function getServerData() {
   
   fetch(
   `http://api.tvmaze.com/search/shows?q=${inputValue}`
-
   )
   .then(function(response){
     return response.json();
   })
   .then(function(serverData){
     series = serverData;
-  // línea para que se adapten los datos recibidos a lo que necesito.
-
+  // series es el array que me he descargado
   })
   .catch(function(err){
     console.log('Error al traer los datos del servidor', err);
@@ -36,6 +32,25 @@ function getServerData() {
   listenSeries();
   console.log('tengo descargado', series);
 }
+// // Almaceno durante la sesión
+
+// function setSessionStorage() {
+//   sessionStorage.setItem('series', JSON.stringify(series));
+// }
+
+// function getSessionStorage() {
+//   const sessionStoragePalettesJSON = sessionStorage.getItem('palettes');
+//   const sessionStoragePalettes = JSON.parse(sessionStoragePalettesJSON);
+//   if (sessionStoragePalettes !== null){
+//     palettes = sessionStoragePalettes;
+//     paintSeries();
+//     listenSeries();
+//     }else{
+//     getServerData();
+//   }
+// }
+
+
   
  //Pintar 
 function paintSeries() {  
@@ -44,11 +59,11 @@ function paintSeries() {
     const isFavorite = favoriteList.includes(parseInt(series[i].show.id));
 
     if (isFavorite){
-      htmlCode += '<li class="li js-li favorites">';
-      htmlCode += `<h3 class="title favorites">${series[i].show.name}</h3>`;
-    }else{
       htmlCode += '<li class="li js-li">';
       htmlCode += `<h3 class="title">${series[i].show.name}</h3>`;
+    }else{
+      htmlCode += '<li class="li js-li favorites">';
+      htmlCode += `<h3 class="title favorites">${series[i].show.name}</h3>`;
     }
     htmlCode += '<div>';
     if (series[i].show.image !== null){
@@ -85,16 +100,19 @@ function listenSeries(){
   }    
   
   // almacenar en localStorage la búsqueda
+
+
  //favoritos 
 function toggleFavorites(ev){
-  const clickedItemId = ev.currentTarget/*.show.name*/;
-  const isFavorite = () => {
-    if(favoriteList.includes(parseInt(clickedItemId))){
-console.log('después del if');
-    }
-
-  } 
-  console.log('escucha el click de la serie')
+  const clickedItemId = parseInt(ev.currentTarget.show.id)/*.show.name*/;
+  for (let i = 0; i < series.length; i++) {
+    const isFavorite = favoriteList.includes(parseInt(clickedItemId));
+    if (isFavorite) {
+      favoriteList.splice(clickedItemId, 1);
+    } else {
+      favoriteList.push(parseInt(clickedItemId));
+    }    
+  }
 }
 
 listenSeries();
