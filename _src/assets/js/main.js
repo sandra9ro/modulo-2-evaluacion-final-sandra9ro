@@ -43,7 +43,7 @@ function paintSeries() {
     }
     htmlCode += '</div>'
     htmlCode += '</li>';
-    console.log('me estoy descargando', series[i].show.image.medium);
+    console.log('me estoy descargando', series[i].show.name);
   }
   ulSearch.innerHTML = htmlCode;
 }
