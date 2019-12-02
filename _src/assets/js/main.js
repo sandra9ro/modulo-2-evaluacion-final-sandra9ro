@@ -4,7 +4,7 @@ console.log('>> Ready :)');
 const button = document.querySelector(".js-button");
 const ulSearch = document.querySelector('.js-search-result-container');
 const ul = document.querySelector('.ul');
-let series = {};
+let series = [];
 
 //Traer datos del servidor
 function getServerData() {
@@ -12,7 +12,7 @@ function getServerData() {
   const inputValue = input.value;
   
   fetch(
-  `http://api.tvmaze.com/singlesearch/shows?q=${inputValue}`
+  `http://api.tvmaze.com/search/shows?q=${inputValue}`
   )
   .then(function(response){
     return response.json();
@@ -25,27 +25,26 @@ function getServerData() {
   .catch(function(err){
     console.log('Error al traer los datos del servidor', err);
   })
-  console.log('píntame algo');
-  console.log('me estoy descargando', series.name);
-  // paintSeries();
+  console.log('http://api.tvmaze.com/search/shows?q=girls');
+  paintSeries();
 }
-console.log('http://api.tvmaze.com/singlesearch/shows?q=girls');
   
  //Pintar 
 function paintSeries() {  
   let htmlCode = "";
-
+  for (let i=0; i<series.length; i++){
     htmlCode += '<li>';
-    htmlCode += `<h3>${series.name}<h3>`;
+    htmlCode += `<h3>${series[i].show.name}<h3>`;
     htmlCode += '<div>';
-    if (series.url !== null){
-    htmlCode += `<img src="${series.url}">`;
+    if (series[i].show.image !== null){
+    htmlCode += `<img src="${series[i].show.image.medium}">`;
     }else{
     htmlCode += '<img src="https://via.placeholder.com/210x295/ffffff/666666/?text=TV">';
     }
     htmlCode += '</div>'
     htmlCode += '</li>';
-  // }
+    console.log('me estoy descargando', series[i].show.image.medium);
+  }
   ulSearch.innerHTML = htmlCode;
 }
 
