@@ -1,8 +1,9 @@
-[] Hacer html
-[] Hacer css básico __ commit
+[x] Hacer html
+[x] Hacer css básico __ commit
 [] Conectarse al API
-  [] Investigar el API
+  [x] Investigar el API
   [] Hacer fetch
+    [x] Función de fetch
     [] Crear array de películas recibidas y meterlo en una constante
   [] hacer event listening sobre el botón
 [] Conectar el input con la url de búsqueda
