@@ -19,7 +19,6 @@ let favoriteList = [5,3,98
   //     "original": "http://static.tvmaze.com/uploads/images/original_untouched/31/78286.jpg"}
 //   }
 // }
-// foo.includes('vaca')
 ];
 
 
@@ -126,19 +125,20 @@ const li = document.querySelector('.js-li');
 function listenSeries(){
   button.addEventListener('click', getServerData);
   
-  // series.addEventListener('click', foo);
+  ulSearch.addEventListener('click', foo);
   // for (const serie of series) {
     //   // const shownImage = serie.show.image.medium;
     //   console.log("hasta aqui");
     // }
     // debugger;
-    
-  }    
-  
-  // almacenar en localStorage la búsqueda
+    // ===================>>>>>>>>>>>escuchar el ul
+  // } 
+  toggleFavorites();   
+}
 
 
- //favoritos 
+
+//favoritos 
 
 function paintFavorites() {
   let htmlCode = '';
@@ -158,17 +158,20 @@ function paintFavorites() {
   favoritesContainer.innerHTML = htmlCode;
 }
 
-// function toggleFavorites(ev){
-  //   const clickedItemId = parseInt(ev.currentTarget.show.id)/*.show.name*/;
-  //   for (let i = 0; i < series.length; i++) {
-    //     const isFavorite = favoriteList.includes(parseInt(clickedItemId));
-    //     if (isFavorite) {
-      //       favoriteList.splice(clickedItemId, 1);
-      //     } else {
-        //       favoriteList.push(parseInt(clickedItemId));
-        //     }    
-        //   }
-        // }
+function toggleFavorites(ev){
+    const clickedItem = ev.target;
+    const clickedItemId = parseInt(ev.target.show.id);/*.show.name*/;
+
+    // for (const favoriteItem of favoriteList) {
+    //   const favoriteItemId = parseInt(favoriteItem.show.id);
+    //     // const isFavorite = favoriteList.includes(parseInt(clickedItemId));
+    if (favoriteList.includes(clickedItemId)) {
+        favoriteList.splice(clickedItem, 1);
+      } else {
+          favoriteList.push(parseInt(clickedItem));
+          // foo.includes('vaca')
+        }    
+}
 setFavLocalStorage();        
 paintFavorites();
 listenSeries();
