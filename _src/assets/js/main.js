@@ -1,14 +1,50 @@
+debugger;
 'use strict';
 console.log('>> Ready :)');
-
 const button = document.querySelector(".js-button");
 const ulSearch = document.querySelector('.js-search-result-container');
 const ul = document.querySelector('.ul');
 let series = [];
-let favoriteList = [];
+let favoriteList = [5,3,98
+  // {"score": 17.240387,
+  // "show":{
+  //   "id": 139,
+  //   "url": "http://www.tvmaze.com/shows/139/girls",
+  //   "name": "Girls",
+  //   "type": "Scripted",
+  //   "language": "English",
+  //   "genres": ["Drama","Romance"],
+  //   "image": {
+  //     "medium": "http://static.tvmaze.com/uploads/images/medium_portrait/31/78286.jpg",
+  //     "original": "http://static.tvmaze.com/uploads/images/original_untouched/31/78286.jpg"}
+//   }
+// }
 // foo.includes('vaca')
+];
+
+
+//localStorage
+
+function setFavLocalStorage() {
+  localStorage.setItem('favoriteList', JSON.stringify(favoriteList));
+}
+
+function getFavLocalStorage() {
+  const localStorageFavListJSON = localStorage.getItem('favoriteList');
+  const localStorageFavList = JSON.parse(localStorageFavListJSON);
+  if (localStorageFavList !== null){
+    favoriteList = localStorageFavList;
+    paintFavorites();
+    listenSeries();
+    paintSeries();
+  }else{
+    getServerData();
+  }
+}
+
 
 //Traer datos del servidor
+
 function getServerData() {
   const input = document.querySelector('.input');
   const inputValue = input.value;
@@ -30,6 +66,7 @@ function getServerData() {
   
   paintSeries();
   listenSeries();
+  paintFavorites();
   console.log('tengo descargado', series);
 }
 // // Almaceno durante la sesión
@@ -76,10 +113,9 @@ function paintSeries() {
     console.log('me estoy descargando', series[i].show.name);
   }
   ulSearch.innerHTML = htmlCode;
+  setFavLocalStorage();
   listenSeries();
 }
-
-//Favoritos
 
 //Escuchar
 function foo() {
@@ -103,17 +139,40 @@ function listenSeries(){
 
 
  //favoritos 
-function toggleFavorites(ev){
-  const clickedItemId = parseInt(ev.currentTarget.show.id)/*.show.name*/;
-  for (let i = 0; i < series.length; i++) {
-    const isFavorite = favoriteList.includes(parseInt(clickedItemId));
-    if (isFavorite) {
-      favoriteList.splice(clickedItemId, 1);
-    } else {
-      favoriteList.push(parseInt(clickedItemId));
-    }    
+
+function paintFavorites() {
+  let htmlCode = '';
+  const favoritesContainer = document.querySelector('.js-favorites-container');
+  for (const favoriteItem of favoriteList){
+  htmlCode += '<li class="li">';
+  htmlCode += `<h3 class="title">${favoriteItem.show.name}</h3>`;
+  htmlCode += '<div>Esto es un a prueba';
+  if (favoriteItem.show.image !== null){
+    htmlCode += `<img src="${favoriteItem.show.image.medium}">`;
+  }else{
+    htmlCode += '<img src="https://via.placeholder.com/210x295/ffffff/666666/?text=TV">';
+  // }
+  htmlCode += '</div>';
+  htmlCode += '</li>';
   }
+  favoritesContainer.innerHTML = htmlCode;
 }
 
+// function toggleFavorites(ev){
+  //   const clickedItemId = parseInt(ev.currentTarget.show.id)/*.show.name*/;
+  //   for (let i = 0; i < series.length; i++) {
+    //     const isFavorite = favoriteList.includes(parseInt(clickedItemId));
+    //     if (isFavorite) {
+      //       favoriteList.splice(clickedItemId, 1);
+      //     } else {
+        //       favoriteList.push(parseInt(clickedItemId));
+        //     }    
+        //   }
+        // }
+setFavLocalStorage();        
+paintFavorites();
 listenSeries();
-
+// function arreglandoEsto() {
+//   return 3*3
+// };
+// arreglandoEsto();

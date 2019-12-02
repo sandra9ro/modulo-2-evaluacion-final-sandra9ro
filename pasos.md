@@ -9,8 +9,8 @@
 [x] Conectar el input con la url de búsqueda
 [x] Pintar una tarjeta con el resultado de la búsqueda
 [] Favoritos
-  [] Crear un array de favoritos
-  [] Añadir / quitar clase (toggle) según sea favorito o no 
+  [x] Crear un array de favoritos
+  [x] Añadir / quitar clase (toggle) según sea favorito o no 
   [] Mantener los favoritos siempre a la izquierda
 [] Almacenar el array de favoritos en el localStorage
 [] Bonus
