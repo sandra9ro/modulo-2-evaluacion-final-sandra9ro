@@ -4,7 +4,7 @@ const button = document.querySelector(".js-button");
 const ulSearch = document.querySelector(".js-search-result-container");
 const ul = document.querySelector(".ul");
 let series = [];
-let favoriteList = ["casa", "piano", "vaca"];
+let favoriteList = [];
 
 //localStorage
 
@@ -58,11 +58,11 @@ function paintSeries() {
     const isFavorite = favoriteList.includes(parseInt(series[i].show.id));
 
     if (isFavorite) {
-      htmlCode += '<li class="li js-li">';
-      htmlCode += `<h3 class="title">${series[i].show.name}</h3>`;
-    } else {
-      htmlCode += '<li class="li js-li favorites">';
+      htmlCode += `<li class="li js-li favorites" id="${series[i].show.id}">`;
       htmlCode += `<h3 class="title favorites">${series[i].show.name}</h3>`;
+    } else {
+      htmlCode += `<li class="li js-li" id="${series[i].show.id}">`;
+      htmlCode += `<h3 class="title">${series[i].show.name}</h3>`;
     }
     htmlCode += "<div>";
     if (series[i].show.image !== null) {
@@ -100,20 +100,19 @@ function paintFavorites() {
 
   let htmlCode = "";
   const favoritesContainer = document.querySelector(".js-favorites-container");
-  favoritesContainer.innerHTML = favoriteList;
-  // for (const favoriteItem of favoriteList) {
-  htmlCode += '<li class="li">';
-  htmlCode += `<h3 class="title">favoriteItem.show.name}</h3>`;
-  htmlCode += "<div>Esto es un a prueba";
-  // if (favoriteItem.show.image !== null) {
-  //   htmlCode += `<img src="${favoriteItem.show.image.medium}">`;
-  // } else {
-  htmlCode +=
-    '<img src="https://via.placeholder.com/210x295/ffffff/666666/?text=TV">';
-  // }
-  htmlCode += "</div>";
-  htmlCode += "</li>";
-  // }
+  for (let favoriteItem of favoriteList) {
+    htmlCode += '<li class="li">';
+    htmlCode += `<h3 class="title">${favoriteItem.show.name}</h3>`;
+    htmlCode += "<div>Esto es un a prueba";
+    if (favoriteItem.show.image !== null) {
+      htmlCode += `<img src="${favoriteItem.show.image.medium}">`;
+    } else {
+      htmlCode +=
+        '<img src="https://via.placeholder.com/210x295/ffffff/666666/?text=TV">';
+    }
+    htmlCode += "</div>";
+    htmlCode += "</li>";
+  }
   favoritesContainer.innerHTML = htmlCode;
   listenButton();
 }
@@ -123,21 +122,41 @@ function toggleFavorites() {
 }
 
 function toggleFavorites(ev) {
-  const clickedItem = ev.target;
+  const clickedItem = ev.currentTarget;
   console.log("clicado:", clickedItem);
-  // const clickedItemId = parseInt(ev.target.show.id); /*.show.name*/
+  // debugger;
+  const clickedItemId = parseInt(ev.currentTarget.id);
+  let favIndex = -1;
+  for (let i = 0; i < favoriteList.length; i++) {
+    if (clickedItemId === favoriteList[i].id) {
+      favIndex = i;
+    }
+  }
+  if (favIndex === -1) {
+    for (let i = 0; i < series.length; i++) {
+      if (clickedItemId === series[i].show.id) {
+        console.log("lo meto");
+        favoriteList.push(series[i]);
+      }
+    }
+  } else {
+    console.log("Lo saco");
+    favoriteList.splice(series[i], 1);
+  }
 
-  // for (const favoriteItem of favoriteList) {
-  //   const favoriteItemId = parseInt(favoriteItem.show.id);
-  //     // const isFavorite = favoriteList.includes(parseInt(clickedItemId));
-  // if (favoriteList.includes(clickedItemId)) {
-  //   favoriteList.splice(clickedItem, 1);
-  // } else {
-  //   favoriteList.push(parseInt(clickedItem));
-  // foo.includes('vaca')
-  // }
+  console.log("id clicado: ", clickedItemId);
+  console.log(favIndex);
+  console.log(
+    "clicked id:",
+    clickedItemId,
+    "fav index",
+    favIndex,
+    "lista: ",
+    favoriteList
+  );
+  listenButton();
+  setFavLocalStorage();
+  paintFavorites();
 }
-listenButton();
 getServerData();
-setFavLocalStorage();
 paintFavorites();
