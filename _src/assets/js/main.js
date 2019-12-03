@@ -1,5 +1,4 @@
 ("use strict");
-console.log(">> Ready :)");
 const button = document.querySelector(".js-button");
 const ulSearch = document.querySelector(".js-search-result-container");
 const ul = document.querySelector(".ul");
@@ -55,9 +54,14 @@ function getServerData() {
 function paintSeries() {
   let htmlCode = "";
   for (let i = 0; i < series.length; i++) {
-    const isFavorite = favoriteList.includes(parseInt(series[i].show.id));
+    let isFav = false;
+    for (const fav of favoriteList) {
+      if (series[i].show.id === fav.show.id) {
+        isFav = true;
+      }
+    }
 
-    if (isFavorite) {
+    if (isFav === true) {
       htmlCode += `<li class="li js-li favorites" id="${series[i].show.id}">`;
       htmlCode += `<h3 class="title favorites">${series[i].show.name}</h3>`;
     } else {
@@ -124,11 +128,10 @@ function toggleFavorites() {
 function toggleFavorites(ev) {
   const clickedItem = ev.currentTarget;
   console.log("clicado:", clickedItem);
-  // debugger;
   const clickedItemId = parseInt(ev.currentTarget.id);
   let favIndex = -1;
   for (let i = 0; i < favoriteList.length; i++) {
-    if (clickedItemId === favoriteList[i].id) {
+    if (clickedItemId === favoriteList[i].show.id) {
       favIndex = i;
     }
   }
@@ -141,7 +144,7 @@ function toggleFavorites(ev) {
     }
   } else {
     console.log("Lo saco");
-    favoriteList.splice(series[i], 1);
+    favoriteList.splice(favIndex, 1);
   }
 
   console.log("id clicado: ", clickedItemId);
@@ -154,9 +157,11 @@ function toggleFavorites(ev) {
     "lista: ",
     favoriteList
   );
+  paintSeries();
   listenButton();
   setFavLocalStorage();
   paintFavorites();
 }
+getFavLocalStorage();
 getServerData();
 paintFavorites();
