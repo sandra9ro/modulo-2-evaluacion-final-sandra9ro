@@ -41,13 +41,11 @@ function getServerData() {
     .catch(function(err) {
       console.log("Error al traer los datos del servidor", err);
     });
-  console.log(`http://api.tvmaze.com/search/shows?q=${inputValue}`);
 
   paintSeries();
   listenSeries();
   paintFavorites();
   listenButton();
-  console.log("tengo descargado", series);
 }
 
 //Pintar
@@ -77,7 +75,6 @@ function paintSeries() {
     }
     htmlCode += "</div>";
     htmlCode += "</li>";
-    console.log("me estoy descargando", series[i].show.name);
   }
   ulSearch.innerHTML = htmlCode;
   listenSeries();
@@ -100,8 +97,6 @@ function listenSeries() {
 //favoritos
 
 function paintFavorites() {
-  console.log("pintar favoritos");
-
   let htmlCode = "";
   const favoritesContainer = document.querySelector(".js-favorites-container");
   for (let favoriteItem of favoriteList) {
@@ -121,13 +116,8 @@ function paintFavorites() {
   listenButton();
 }
 
-function toggleFavorites() {
-  console.log("funciona el click");
-}
-
 function toggleFavorites(ev) {
   const clickedItem = ev.currentTarget;
-  console.log("clicado:", clickedItem);
   const clickedItemId = parseInt(ev.currentTarget.id);
   let favIndex = -1;
   for (let i = 0; i < favoriteList.length; i++) {
@@ -138,25 +128,12 @@ function toggleFavorites(ev) {
   if (favIndex === -1) {
     for (let i = 0; i < series.length; i++) {
       if (clickedItemId === series[i].show.id) {
-        console.log("lo meto");
         favoriteList.push(series[i]);
       }
     }
   } else {
-    console.log("Lo saco");
     favoriteList.splice(favIndex, 1);
   }
-
-  console.log("id clicado: ", clickedItemId);
-  console.log(favIndex);
-  console.log(
-    "clicked id:",
-    clickedItemId,
-    "fav index",
-    favIndex,
-    "lista: ",
-    favoriteList
-  );
   paintSeries();
   listenButton();
   setFavLocalStorage();
