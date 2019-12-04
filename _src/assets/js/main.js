@@ -2,6 +2,7 @@
 const button = document.querySelector(".js-button");
 const ulSearch = document.querySelector(".js-search-result-container");
 const ul = document.querySelector(".ul");
+const input = document.querySelector(".input");
 let series = [];
 let favoriteList = [];
 
@@ -27,7 +28,6 @@ function getFavLocalStorage() {
 //Traer datos del servidor
 
 function getServerData() {
-  const input = document.querySelector(".input");
   const inputValue = input.value;
 
   fetch(`http://api.tvmaze.com/search/shows?q=${inputValue}`)
@@ -102,7 +102,6 @@ function paintFavorites() {
   for (let favoriteItem of favoriteList) {
     htmlCode += '<li class="li">';
     htmlCode += `<h3 class="title">${favoriteItem.show.name}</h3>`;
-    htmlCode += "<div>Esto es un a prueba";
     if (favoriteItem.show.image !== null) {
       htmlCode += `<img src="${favoriteItem.show.image.medium}">`;
     } else {
