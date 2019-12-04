@@ -2,6 +2,7 @@
 const button = document.querySelector(".js-button");
 const ulSearch = document.querySelector(".js-search-result-container");
 const ul = document.querySelector(".ul");
+const logBtn = document.querySelector(".js-log");
 let series = [];
 let favoriteList = [];
 
@@ -66,6 +67,7 @@ function paintSeries() {
       htmlCode += `<li class="li js-li" id="${series[i].show.id}">`;
       htmlCode += `<h3 class="title">${series[i].show.name}</h3>`;
     }
+    htmlCode += `<h4 class='js-time'>${series[i].show.schedule.time}</4>`;
     htmlCode += "<div>";
     if (series[i].show.image !== null) {
       htmlCode += `<img src="${series[i].show.image.medium}">`;
@@ -94,6 +96,14 @@ function listenSeries() {
   }
 }
 
+function titles() {
+  for (let i = 0; i < series.length; i++) {
+    console.log(series[i].show.name);
+  }
+}
+
+logBtn.addEventListener("click", titles);
+
 //favoritos
 
 function paintFavorites() {
@@ -102,7 +112,6 @@ function paintFavorites() {
   for (let favoriteItem of favoriteList) {
     htmlCode += '<li class="li">';
     htmlCode += `<h3 class="title">${favoriteItem.show.name}</h3>`;
-    htmlCode += "<div>Esto es un a prueba";
     if (favoriteItem.show.image !== null) {
       htmlCode += `<img src="${favoriteItem.show.image.medium}">`;
     } else {
