@@ -1,4 +1,4 @@
-("use strict");
+"use strict";
 const button = document.querySelector(".js-button");
 const ulSearch = document.querySelector(".js-search-result-container");
 const ul = document.querySelector(".ul");
